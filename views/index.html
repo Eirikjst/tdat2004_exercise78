@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf8">
+        <title>Exercise 7 and 8(TDAT2004)</title>
+        <style type="text/css">
+            html, body {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="videoCanvas"></canvas>
+        <script type="text/javascript">
+            let client = new WebSocket('ws://127.0.0.1:8082');
+            client.onmessage = function onmessage(event) {
+                let canvas = document.getElementById('videoCanvas');
+                canvas.width = window.innerWidth-50;
+                canvas.height = window.innerHeight-50;
+                let context = canvas.getContext('2d');
+                let imageObj = new Image();
+                imageObj.onload = function() {
+                    context.drawImage(imageObj, 0, 0, window.innerWidth-50, window.innerHeight-50);
+                }
+                imageObj.src = event.data;
+            }
+        </script>
+    </body>
+</html>
