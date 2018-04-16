@@ -4,8 +4,7 @@ let app = express();
 
 let PORT = 8080;
 
-app.use(express.static(__dirname + '/views'))
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'views')));
 app.get('/', function(req, res){
     res.sendFile('index.html', {root: './views/'});
 });

@@ -12,7 +12,7 @@
     <body>
         <canvas id="videoCanvas"></canvas>
         <script type="text/javascript">
-            let client = new WebSocket('ws://127.0.0.1:8082');
+            let client = new WebSocket('ws://'+location.hostname+':8082');
             client.onmessage = function onmessage(event) {
                 let canvas = document.getElementById('videoCanvas');
                 canvas.width = window.innerWidth-50;
