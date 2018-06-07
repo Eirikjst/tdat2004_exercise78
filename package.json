@@ -4,7 +4,7 @@
   "description": "Exercise 7 and 8, TDAT2004",
   "main": "index.js",
   "scripts": {
-    "start": "node image-server"
+    "start": "node server"
   },
   "author": "eirikjst",
   "license": "ISC",

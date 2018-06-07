@@ -1,17 +1,30 @@
 const screenshot = require('screenshot-desktop');
+
 let ws = require('ws');
+let HTTP_PORT = 8080;
 let WEBSOCKET_PORT = 8082;
 let SCREENSHOT_INTERVAL = 70; //milliseconds, fps=1000/SCREENSHOT_INTERVAL
+let express = require('express');
+let path = require('path');
+let app = express();
+
+//Http server
+app.use(express.static(path.join(__dirname, 'views')));
+app.get('/', function(req, res){
+    res.sendFile('index.html', {root: './views/'});
+});
+app.listen(HTTP_PORT);
 
 let socketServer = new ws.Server({port: WEBSOCKET_PORT, perMessageDeflate: false})
 socketServer.connectionCount = 0;
 socketServer.on('connection', function(socket, upgradeReq){
     socketServer.connectionCount++;
-    //let streamHeader = new Buffer(8);
-    //streamHeader.write('jsmp');
-    //streamHeader.writeUInt16BE(640);
-    //streamHeader.writeInt16BE(480);
-    //socket.send(streamHeader, {binary:true});
+    /**let streamHeader = new Buffer(8);
+    streamHeader.write('jsmp');
+    streamHeader.writeUInt16BE(640);
+    streamHeader.writeInt16BE(480);
+    socket.send(streamHeader, {binary:true});
+    */
     console.log(
 		'New WebSocket Connection: ', 
         (upgradeReq || socket.upgradeReq).socket.remoteAddress,
@@ -43,4 +56,5 @@ function take_screenshot(){
 
 setInterval(take_screenshot, SCREENSHOT_INTERVAL);
 
+console.log('HTTP Server started at 127.0.0.1:'+HTTP_PORT);
 console.log('Awaiting WebSocket connections on ws://127.0.0.1:'+WEBSOCKET_PORT);
